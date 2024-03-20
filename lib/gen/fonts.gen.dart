@@ -10,6 +10,9 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: DMSerifDisplay
+  static const String dMSerifDisplay = 'DMSerifDisplay';
+
   /// Font family: Kredit
   static const String kredit = 'Kredit';
 }

@@ -18,7 +18,6 @@ dependencies:
   nfc_manager:
     git: https://github.com/TamilKannanCV/flutter-nfc-manager.git
   lottie: ^3.1.0
-  google_fonts: ^6.2.1
   intl: ^0.19.0
 
 flutter_gen:
@@ -40,6 +39,9 @@ flutter:
     - family: Kredit
       fonts:
         - asset: assets/fonts/kredit.ttf
+    - family: DMSerifDisplay
+      fonts:
+        - asset: assets/fonts/dm_serif_display_regular.ttf
   assets:
    - assets/images/
    - assets/lotties/

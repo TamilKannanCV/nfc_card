@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import 'gen/fonts.gen.dart';
 import 'screens/main_screen.dart';
 
 Future<void> main() async {
@@ -20,7 +20,7 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData(
-        fontFamily: GoogleFonts.dmSerifText().fontFamily,
+        fontFamily: FontFamily.dMSerifDisplay,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
           brightness: Brightness.dark,
