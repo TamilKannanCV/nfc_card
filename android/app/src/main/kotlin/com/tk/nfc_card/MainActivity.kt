@@ -1,4 +1,4 @@
-package com.example.nfc_card
+package com.tk.nfc_card
 
 import io.flutter.embedding.android.FlutterActivity
 

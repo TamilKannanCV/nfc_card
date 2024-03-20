@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.NFC"/>
 
     <application
-        android:label="nfc_card"
+        android:label="NFC Card"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -34,7 +34,7 @@
             android:value="2" />
     </application>
     <!-- Required to query activities that can process text, see:
-         https://developer.android.com/training/package-visibility?hl=en and
+         https://developer.android.com/training/package="com.tk.nfc_card">
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
