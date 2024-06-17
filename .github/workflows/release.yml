@@ -17,6 +17,10 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
+      
+      - name: Get flutter version
+        id: get_flutter_version
+        uses: its404/get-flutter-version@v1.0.0
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
