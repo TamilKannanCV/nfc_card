@@ -18,18 +18,8 @@ jobs:
           distribution: 'zulu'
           java-version: 11
 
-      - uses: kuhnroyal/flutter-fvm-config-action@v2
-        id: fvm-config-action
-        
-      - name: Get flutter version
-        id: get_flutter_version
-        uses: its404/get-flutter-version@v1.0.0
-      
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
       
       - name: 🔑 Decode Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > ./android/app/release-key.jks
