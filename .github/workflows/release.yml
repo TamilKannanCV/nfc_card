@@ -1,0 +1,112 @@
+name: NFC Card Release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java to compile the Android project
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 11
+
+      - uses: kuhnroyal/flutter-fvm-config-action@v2
+        id: fvm-config-action
+        
+      - name: Get flutter version
+        id: get_flutter_version
+        uses: its404/get-flutter-version@v1.0.0
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+      
+      - name: 🔑 Decode Android keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > ./android/app/release-key.jks
+        
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      # - name: 🕵️ Analyze to check for bad Dart/Flutter practices
+      #   run: flutter analyze
+      
+      - name: 🧑‍💻 Generating files
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: 🔧 Build aab
+        env:
+          KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+          ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: flutter build appbundle --release
+        
+      - name: 🔧 Build universal apk
+        env:
+          KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+          ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: flutter build apk --release
+        
+      - name: 🔧 Build split apk
+        env:
+          KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+          ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: flutter build apk --release --split-per-abi
+        
+      - name: 🍀 Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: v${{ steps.get_flutter_version.outputs.build_number }}
+          release_name: v${{ steps.get_flutter_version.outputs.version_number }} - ${{ steps.get_flutter_version.outputs.build_number }}
+          draft: false
+          prerelease: false
+
+      - name: ☁️ Upload APK to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.apk
+          asset_content_type: application/apk
+          
+      - name: ☁️ Upload AAB to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/build/app/outputs/bundle/release/app-release.aab
+          asset_name: app-release.aab
+          asset_content_type: application/aab
+
+      - name: Uploading AAB to Slack
+        uses: MeilCli/slack-upload-file@v4
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          initial_comment: |
+            You APK and AAB are here
+              🍏 version: ${{ steps.get_flutter_version.outputs.version_number }}
+              🤖 build: ${{ steps.get_flutter_version.outputs.build_number }}
+          file_path: '${{ github.workspace }}/build/app/outputs/flutter-apk/*.apk'
+          
+      - name: Uploading APK to Slack
+        uses: MeilCli/slack-upload-file@v4
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          file_path:  ${{ github.workspace }}/build/app/outputs/bundle/release/app-release.aab
+          
