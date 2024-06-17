@@ -37,18 +37,21 @@ jobs:
         env:
           KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
           ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: flutter build appbundle --release
         
       - name: 🔧 Build universal apk
         env:
           KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
           ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: flutter build apk --release
         
       - name: 🔧 Build split apk
         env:
           KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
           ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: flutter build apk --release --split-per-abi
         
       - name: 🍀 Create Release
