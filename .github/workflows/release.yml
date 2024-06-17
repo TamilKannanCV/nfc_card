@@ -57,17 +57,6 @@ jobs:
           ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: flutter build apk --release --split-per-abi
-        
-      - name: 🍀 Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          tag_name: v${{ steps.get_flutter_version.outputs.build_number }}
-          release_name: v${{ steps.get_flutter_version.outputs.version_number }} - ${{ steps.get_flutter_version.outputs.build_number }}
-          draft: false
-          prerelease: false
 
       - name: ☁️ Upload APK to release
         uses: actions/upload-release-asset@v1
