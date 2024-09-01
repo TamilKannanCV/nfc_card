@@ -78,4 +78,14 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'com.facebook.android:facebook-applinks:14.0.0'
+    implementation 'com.facebook.android:audience-network-sdk:6.13.7'
+
+    implementation "com.anythink.sdk:core:6.2.98"
+    implementation "com.anythink.sdk:interstitial:6.2.98"
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.browser:browser:1.4.0"
+    implementation "com.anythink.sdk:adapter-facebook:6.2.98"
+    implementation "androidx.annotation:annotation:1.0.0"
+}
