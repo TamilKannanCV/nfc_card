@@ -1,11 +1,9 @@
-import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 
 import 'gen/fonts.gen.dart';
 import 'screens/main_screen.dart';
 
 Future<void> main() async {
-  await FacebookAudienceNetwork.init();
   runApp(const App());
 }
 
