@@ -5,9 +5,6 @@
     <uses-permission
         android:name="android.permission.USE_FULL_SCREEN_INTENT"
         tools:node="remove" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-
 
     <application
         android:name="${applicationName}"
@@ -30,17 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="433522883041846" />
-        <meta-data
-            android:name="com.facebook.sdk.ClientToken"
-            android:value="b65ef44447c4443735cf5a2af74face3" />
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
 
         <meta-data
             android:name="flutterEmbedding"
